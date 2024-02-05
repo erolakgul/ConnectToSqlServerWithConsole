@@ -1,22 +1,22 @@
-﻿
+﻿using ConnectToSqlServerWithConsole.Core.Entity;
 using ConnectToSqlServerWithConsole.Data.Context;
+using ConnectToSqlServerWithConsole.Data.Repository;
 
 using (var context = new IotContext())
 {
-	try
-	{
-		var list = context.Logs.Where(x => !x.IsDeleted).ToList();
+    var logRepository = new LogRepository(context);
 
-		foreach (var item in list)
-		{
-			Console.WriteLine(item.Url);
-		}
-	}
-	catch (Exception ex) 
-	{
-		Console.WriteLine(ex.Message.ToString());
-	}
-}
+    // func tanımla
+    Func<LOGS, bool> searchFunction = p => p.Url.Contains("EAKGUL");
 
+    // func ı repoya gönder
+    var results = logRepository.Find(searchFunction);
+
+    // sonucu görüntüle
+    foreach (var log in results)
+    {
+        Console.WriteLine($"Log Id: {log.ID}, Name: {log.MachineName}, Url: {log.Url}");
+    }
+};
 
 Console.ReadKey();
