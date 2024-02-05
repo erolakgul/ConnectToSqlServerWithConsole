@@ -19,7 +19,7 @@ using (var context = new IotContext())
 
     Func<IQueryable<LOGS>, IOrderedQueryable<LOGS>> orderByFunction =
         (
-           q =>
+            q =>
             q.OrderBy(p => p.CreatedDate)
         );
 
