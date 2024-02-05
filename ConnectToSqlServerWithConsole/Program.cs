@@ -12,10 +12,18 @@ using (var context = new IotContext())
         p.Url.Contains("EAKGUL") 
           && 
         p.CreatedDate >= DateTime.Parse("2022/11/15")
-    ); 
+    );
 
     // func ı repoya gönder
-    var results = logRepository.Find(searchFunction);
+    //var results = logRepository.Find(searchFunction);
+
+    Func<IQueryable<LOGS>, IOrderedQueryable<LOGS>> orderByFunction =
+        (
+           q =>
+            q.OrderBy(p => p.CreatedDate)
+        );
+
+    var results = logRepository.FindAndSort(searchFunction, orderByFunction);
 
     // sonucu görüntüle
     foreach (var log in results)

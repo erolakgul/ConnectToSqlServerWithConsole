@@ -19,5 +19,17 @@ namespace ConnectToSqlServerWithConsole.Data.Repository
         {
             return _dbSet.AsNoTracking().Where(predicate).ToList();
         }
+
+        public IEnumerable<LOGS> FindAndSort(Func<LOGS, bool> predicate, Func<IQueryable<LOGS>, IOrderedQueryable<LOGS>> orderBy = null)
+        {
+            IQueryable<LOGS> list = _dbSet.AsNoTracking().Where(predicate).AsQueryable();
+
+            if (orderBy is not null)
+            {
+                list = orderBy(list);
+            }
+
+            return list.ToList();
+        }
     }
 }
