@@ -23,7 +23,12 @@ using (var context = new IotContext())
             q.OrderBy(p => p.CreatedDate)
         );
 
-    var results = logRepository.FindAndSort(searchFunction, orderByFunction);
+    //var results = logRepository.FindAndSort(searchFunction, orderByFunction);
+
+    int skipAt = 3;
+    int takeAt = 10;
+
+    var results = logRepository.FindAsPaging(searchFunction, orderByFunction,skipAt,takeAt);
 
     // sonucu görüntüle
     foreach (var log in results)

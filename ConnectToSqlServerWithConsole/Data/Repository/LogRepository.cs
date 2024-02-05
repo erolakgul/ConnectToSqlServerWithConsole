@@ -1,6 +1,7 @@
 ﻿using ConnectToSqlServerWithConsole.Core.Entity;
 using ConnectToSqlServerWithConsole.Core.Repository;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ConnectToSqlServerWithConsole.Data.Repository
 {
@@ -27,6 +28,28 @@ namespace ConnectToSqlServerWithConsole.Data.Repository
             if (orderBy is not null)
             {
                 list = orderBy(list);
+            }
+
+            return list.ToList();
+        }
+
+        public IEnumerable<LOGS> FindAsPaging(Func<LOGS, bool> predicate, Func<IQueryable<LOGS>, IOrderedQueryable<LOGS>> orderBy = null, int? skip = 0, int? take = 0)
+        {
+            IQueryable<LOGS> list = _dbSet.AsNoTracking().Where(predicate).AsQueryable();
+
+            if (orderBy is not null)
+            {
+                list = orderBy(list);
+            }
+
+            if (skip.HasValue)
+            {
+                list = list.Skip(skip.Value);
+            }
+
+            if (take.HasValue)
+            {
+                list = list.Take(take.Value);
             }
 
             return list.ToList();
