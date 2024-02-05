@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ConnectToSqlServerWithConsole.Data.Repository
 {
-    public class LogRepository : ILogRepository<LOGS>
+    public class LogRepository : IRepository<LOGS>
     {
         private readonly DbContext _context;
         private readonly DbSet<LOGS> _dbSet;
