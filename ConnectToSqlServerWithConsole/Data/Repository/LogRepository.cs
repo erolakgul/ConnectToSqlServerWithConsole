@@ -1,6 +1,7 @@
 ﻿using ConnectToSqlServerWithConsole.Core.Entity;
 using ConnectToSqlServerWithConsole.Core.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ConnectToSqlServerWithConsole.Data.Repository
@@ -53,6 +54,28 @@ namespace ConnectToSqlServerWithConsole.Data.Repository
             }
 
             return list.ToList();
+        }
+
+        public IEnumerable<LOGS> FindWithExpression(Expression<Func<LOGS, bool>> predicate, Func<IQueryable<LOGS>, IOrderedQueryable<LOGS>> orderBy = null, int? skip = null, int? take = null)
+        {
+            IQueryable<LOGS> query = _dbSet.AsNoTracking().Where(predicate);
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            if (skip.HasValue)
+            {
+                query = query.Skip(skip.Value);
+            }
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.ToList();
         }
     }
 }
