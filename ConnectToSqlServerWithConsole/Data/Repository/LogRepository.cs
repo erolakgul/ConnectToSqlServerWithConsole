@@ -1,6 +1,9 @@
 ﻿using ConnectToSqlServerWithConsole.Core.Entity;
 using ConnectToSqlServerWithConsole.Core.Repository;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -76,6 +79,28 @@ namespace ConnectToSqlServerWithConsole.Data.Repository
             }
 
             return query.ToList();
+        }
+
+        public IEnumerable<LOGS> FindWithExpressionMultipleFilter(Expression<Func<LOGS, bool>> searchFunction, Func<IQueryable<LOGS>, IOrderedQueryable<LOGS>> orderBy = null, int? skip = 0, int? take = 0)
+        {
+            IQueryable<LOGS> query = _dbSet.Where(searchFunction);
+     
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            if (skip.HasValue)
+            {
+                query = query.Skip(skip.Value);
+            }
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query;  
         }
     }
 }
