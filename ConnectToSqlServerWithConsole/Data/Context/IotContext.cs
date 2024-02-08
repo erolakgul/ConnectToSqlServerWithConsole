@@ -8,7 +8,7 @@ namespace ConnectToSqlServerWithConsole.Data.Context
         public virtual DbSet<LOGS> Logs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=HAUSCL-410\\BESIKTASDEV;User ID=sa;Password=İstanbul88*;Database=IotMasterDb_v1;Trusted_Connection=True; TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=HAUSCL-410\\BESIKTASDEV;User ID=sa;Password=**;Database=IotMasterDb_v1;Trusted_Connection=True; TrustServerCertificate=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
